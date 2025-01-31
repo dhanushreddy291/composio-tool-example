@@ -189,6 +189,33 @@ Here's a list of all the available actions that you can use with the Neon Compos
 
 You can use these actions in your CrewAI agents by specifying them in the `toolset.get_tools(actions=[...])` function, just like we did in the example.
 
+To effectively use the wide array of Neon actions available through Composio, it's important to understand that **each action may require specific input parameters**. These parameters are essential for Composio to correctly execute the desired operation against your Neon account.
+
+You can find detailed information about each action, including its required parameters and their descriptions under [Neon app in your Composio dashboard](https://app.composio.dev/app/neon)
+
+**To utilize actions that require parameters, you simply need to include these parameters within the `description` of the task you assign to your CrewAI agent.** The agent will intelligently extract these parameters from the task description when it uses the Composio tool.
+
+For instance, let's consider the `NEON_GET_PROJECT_CONNECTION_URI` action. 
+
+
+<p align="center">
+  <picture>
+    <img alt="Composio Neon Get Connection URI Action" src="./images/composio-neon-get-connection-uri-action.png">
+  </picture>
+</p>
+
+This action needs the `project_id`, `database_name`, and `role_name` to retrieve the correct connection string. Here's how you would define a task to use this action, embedding the necessary parameters directly in the task description:
+
+```python
+get_connection_string_task = Task(
+    description="Get the connection string for the Neon project with ID 'crimson-sea-41647396', for the database named 'neondb', using the role 'neondb_owner'.",
+    agent=crewai_agent,
+    expected_output="The Neon connection string.",
+)
+```
+
+In this example, the task description clearly provides all the necessary information for the `NEON_GET_PROJECT_CONNECTION_URI` action. When the `crewai_agent` executes this task, it will understand from the description which action to use and what parameters are needed, making it seamless to interact with more complex Neon functionalities through your AI agents. Remember to tailor your task descriptions to accurately reflect the parameters needed for the specific Neon action you intend to use.
+
 ## 📚 Learn more
 
 Want to dive deeper? Check out these resources:
